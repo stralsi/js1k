@@ -1,23 +1,15 @@
-onload=function(){
-	s = 5;//scale
-	c = document.createElement("canvas");
-	document.body.appendChild(c);
-	ctx = c.getContext("2d");	
-	monsterDirection = 1; //all the monsters are moving in the same direction
-	monsterXOffset = 1; //all the monsters are moving at the same time
-	monsterFrame = 0; // all the monsters have two frames
+ï»¿s = 5;//scale
+monsterDirection = 1; //all the monsters are moving in the same direction
+monsterXOffset = 1; //all the monsters are moving at the same time
+monsterFrame = 0; // all the monsters have two frames
 	
-	mframes1 = ["¾m=<=m¾","x¾l<<<l¾x"];
-	mframes2 = [":múúm:","=hüüh="];
-	mframes3 = ["9yznìúúìnzy9",":}lìúúìl}:"];
+mframes1 = ["Â¾m=<=mÂ¾","xÂ¾l<<<lÂ¾x"];
+mframes2 = [":mÃºÃºm:","=hÃ¼Ã¼h="];
+mframes3 = ["9yznÃ¬ÃºÃºÃ¬nzy9",":}lÃ¬ÃºÃºÃ¬l}:"];
 	
-	monsters = [monster(0,0,mframes1),monster(0,10,mframes2),monster(0,20,mframes3)];
 
-	//debugger;
-	setInterval(update,300);
-};
 update = function(){
-	ctx.clearRect(0,0,c.width,c.height)
+	c.clearRect(0,0,a.width,a.height)
 	for(var i = 0;i<monsters.length;i++){
 		monsters[i].update();
 	}
@@ -53,7 +45,7 @@ p = function(x,y,b){
 		while(bitIndex>0){
 			if(v>=0){
 				if(v%2 == 1)
-					ctx.fillRect(x*s,(y+bitIndex)*s,s,s);
+					c.fillRect(x*s,(y+bitIndex)*s,s,s);
 				v = Math.floor(v/2);
 			}
 			bitIndex -= 1;
@@ -64,3 +56,7 @@ p = function(x,y,b){
 
 
 
+monsters = [monster(0,0,mframes1),monster(0,10,mframes2),monster(0,20,mframes3)];
+
+//debugger;
+setInterval(update,300);
