@@ -1,4 +1,4 @@
-﻿s = 5;//scale
+﻿s = 2;//scale
 monsterDirection = 1; //all the monsters are moving in the same direction
 monsterXOffset = 1; //all the monsters are moving at the same time
 monsterFrame = 0; // all the monsters have two frames
@@ -54,9 +54,15 @@ p = function(x,y,b){
 	}
 }
 
+monsters = [];
+for (var i = 0; i < 11; i++) {
+    monsters.push(monster(i * 16 + 2, 0, mframes2));
+    monsters.push(monster(i * 16, 10, mframes1));
+    monsters.push(monster(i * 16, 20, mframes1));
+    monsters.push(monster(i * 16, 30, mframes3));
+    monsters.push(monster(i * 16, 40, mframes3));
+}
 
-
-monsters = [monster(0,0,mframes1),monster(0,10,mframes2),monster(0,20,mframes3)];
 
 //debugger;
 setInterval(update,300);
