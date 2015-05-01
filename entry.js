@@ -12,26 +12,35 @@ update = function () {
     //human missles
     for (i = 0; i < humanMissles.length; i++) {
         missle = humanMissles[i];
-        missle.y -= 10;
-        print(missle.x, missle.y, skins[7]);
+
+        if (missle.destroyed) continue;
 
         //collision detection
         for (j = 0; j < invaders.length; j++) {
             ship = invaders[j];
-
-            if (missle.x < ship.x + 12 &&
+            if (!ship.destroyed &&
+                missle.x < ship.x + 12 &&
                missle.x + 1 > ship.x &&
                missle.y < ship.y + 8 &&
                missle.y + 10 > ship.y) {
                 // collision detected!
-                invaders.splice(j, 1);
+                ship.destroyed = 1;
+                missle.destroyed = 1;
             }
         }
+
+        if (missle.destroyed) continue;
+
+        missle.y -= 10;
+        print(missle.x, missle.y, skins[7]);
     }
 
     //print invaders
     for (i = 0; i < invaders.length; i++) {
+
         ship = invaders[i];
+
+        if (ship.destroyed) continue;
 
         skin = 0;
 
