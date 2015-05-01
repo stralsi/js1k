@@ -8,6 +8,30 @@ skins = ["�", ":múúm:", "=hüüh=", "¾m=<=m¾", "x¾l<<<
 update = function () {
     c.fillStyle = 0;
     c.fillRect(0, 0, a.width, a.height)
+
+    //human missles
+    for (i = 0; i < humanMissles.length; i++) {
+        missle = humanMissles[i];
+        missle.y -= 10;
+        print(missle.x, missle.y, skins[7]);
+
+        //collision detection
+        for (j = 0; j < invaders.length; j++) {
+            console.log("s.x", ship.x, "m.x", missle.x);
+            console.log("s.y", ship.y, "m.y", missle.y);
+            console.log("-------");
+            ship = invaders[j];
+
+            if (missle.x < ship.x + 12 &&
+               missle.x + 1 > ship.x &&
+               missle.y < ship.y + 8 &&
+               missle.y + 10 > ship.y) {
+                // collision detected!
+                invaders.splice(j, 1);
+            }
+        }
+    }
+
     //print invaders
     for (i = 0; i < invaders.length; i++) {
         ship = invaders[i];
@@ -40,19 +64,13 @@ update = function () {
     //human
     print(human.x, human.y, skins[0]);
 
-    //human missles
-    for (i = 0; i < humanMissles.length; i++) {
-        missle = humanMissles[i];
-        missle.y -= 10;
-        print(missle.x, missle.y, skins[7]);
-    }
 }
 
 print = function (x, y, b) {
     x = x || 0; y = y || 0;
-    for (j = 0; j < b.length; j++) {
+    for (z = 0; z < b.length; z++) {
         bitIndex = 8;
-        v = b.charCodeAt(j);
+        v = b.charCodeAt(z);
         while (bitIndex > 0) {
             if (v >= 0) {
                 if (v % 2 == 1)
@@ -73,6 +91,7 @@ for (i = 0; i < 11; i++) {
     invaders.push({ x: i * 16, y: 30, t: 3 });
     invaders.push({ x: i * 16, y: 40, t: 3 });
 }
+//invaders.push({ x: 0, y: 10, t: 1 });
 human = { x: 0, y: 150, t: 0 }
 humanMissles = [];
 
