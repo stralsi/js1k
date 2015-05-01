@@ -8,9 +8,8 @@ skins = ["�", ":múúm:", "=hüüh=", "¾m=<=m¾", "x¾l<<<
 update = function () {
     c.fillStyle = 0;
     c.fillRect(0, 0, a.width, a.height)
-
     //print invaders
-    for (var i = 0; i < invaders.length; i++) {
+    for (i = 0; i < invaders.length; i++) {
         ship = invaders[i];
 
         skin = 0;
@@ -42,7 +41,7 @@ update = function () {
     print(human.x, human.y, skins[0]);
 
     //human missles
-    for (var i = 0; i < humanMissles.length; i++) {
+    for (i = 0; i < humanMissles.length; i++) {
         missle = humanMissles[i];
         missle.y -= 10;
         print(missle.x, missle.y, skins[7]);
@@ -51,9 +50,9 @@ update = function () {
 
 print = function (x, y, b) {
     x = x || 0; y = y || 0;
-    for (i = 0; i < b.length; i++) {
+    for (j = 0; j < b.length; j++) {
         bitIndex = 8;
-        v = b.charCodeAt(i);
+        v = b.charCodeAt(j);
         while (bitIndex > 0) {
             if (v >= 0) {
                 if (v % 2 == 1)
@@ -67,7 +66,7 @@ print = function (x, y, b) {
 }
 
 invaders = [];
-for (var i = 0; i < 11; i++) {
+for (i = 0; i < 11; i++) {
     invaders.push({ x: i * 16 + 2, y: 0, t: 1 });
     invaders.push({ x: i * 16, y: 10, t: 2 });
     invaders.push({ x: i * 16, y: 20, t: 2 });
@@ -85,6 +84,5 @@ onkeydown = function (k) {
     (w == 37) ? human.x-- :
     (w == 39) ? human.x++ :
     (w == 32) ? humanMissles.push({ x: human.x, y: human.y, t: 3 }) : "";
-
 };
 
