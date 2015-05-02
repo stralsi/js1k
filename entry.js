@@ -1,5 +1,5 @@
 ﻿Z = 2; //scale (Zoom)
-D = 1; //invaders direction. all the invaders are moving in the same direction
+D =  //invaders direction. all the invaders are moving in the same direction
 X = 1; //invaders X offset. all the invaders are moving at the same time
 F = 0; //all the invaders have two frames
 
