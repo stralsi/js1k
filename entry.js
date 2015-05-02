@@ -75,21 +75,22 @@ setInterval(function () {
 
         s = I[i];
 
-        if (s.d) continue;
+        if (!s.d) {
 
-        k = 0; //skin index
+            k = 0; //skin index
 
-        if (s.t == 1) {
-            k = 1 + F;
-        } else if (s.t == 2) {
-            k = 3 + F;
-        } else if (s.t == 3) {
-            k = 5 + F;
+            if (s.t == 1) {
+                k = 1 + F;
+            } else if (s.t == 2) {
+                k = 3 + F;
+            } else if (s.t == 3) {
+                k = 5 + F;
+            }
+
+            P(s.x, s.y, S[k]);
+
+            I[i].x += D;
         }
-
-        P(s.x, s.y, S[k]);
-
-        I[i].x += D;
     }
 
     //make invaders go to next frame
