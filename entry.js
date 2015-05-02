@@ -6,7 +6,6 @@ F = 0; //all the invaders have two frames
 S = ["�", ":múúm:", "=hüüh=", "¾m=<=m¾", "x¾l<<<l¾x", "9yznìúúìnzy9", ":}lìúúìl}:", "À"] //the skins of all the items in the game
 
 P = function (x, y, b) {
-    x = x || 0; y = y || 0;
     for (z = 0; z < b.length; z++) {
         $ = 8; //bit index
         v = b.charCodeAt(z);
