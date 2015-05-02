@@ -5,7 +5,8 @@ F = 0; //all the invaders have two frames
 
 S = ["�", ":múúm:", "=hüüh=", "¾m=<=m¾", "x¾l<<<l¾x", "9yznìúúìnzy9", ":}lìúúìl}:", "À"] //the skins of all the items in the game
 
-P = function (x, y, b) {
+//the print function
+P = function (x, y, b) { //b is the bits in the skin
     for (z = 0; z < b.length; z++) {
         $ = 8; //bit index
         v = b.charCodeAt(z);
@@ -38,32 +39,35 @@ setInterval(function () {
     c.fillStyle = 0;
     c.fillRect(0, 0, a.width, a.height)
 
-    //handle human missles
+    //printing and collition detection for human missles
     for (i = 0; i < M.length; i++) {
-        m = M[i];
 
-        if (m.d) continue; //don't collide if destroyed
+        m = M[i]; //current missle
 
-        //collision detection
-        for (j = 0; j < I.length; j++) {
-            s = I[j];
-            if (!s.d && //don't consider destroyed ships
-                m.x < s.x + 12 &&
-               m.x + 1 > s.x &&
-               m.y < s.y + 8 &&
-               m.y + 10 > s.y) {
-                // collision detected!
-                s.d = 1; //mark as destroyed
-                m.d = 1; //mark as destroyed
+        if (!m.d) {//don't do anything if destroyed
+
+            //collision detection
+            for (j = 0; j < I.length; j++) {
+                s = I[j];
+                if (!s.d && //don't consider destroyed ships
+                    m.x < s.x + 12 &&
+                   m.x + 1 > s.x &&
+                   m.y < s.y + 8 &&
+                   m.y + 10 > s.y) {
+                    // collision detected!
+                    s.d = 1; //mark as destroyed
+                    m.d = 1; //mark as destroyed
+                }
+            }
+
+            if (!m.d) { //don't print if destroyed during collision detection
+
+                m.y -= 10;
+
+                //print human missles
+                P(m.x, m.y, S[7]);
             }
         }
-
-        if (m.d) continue; //don't print if destroyed
-
-        m.y -= 10;
-
-        //print human missles
-        P(m.x, m.y, S[7]);
     }
 
     //Print invaders
