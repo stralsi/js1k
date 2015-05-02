@@ -1,113 +1,113 @@
-﻿s = 2;//scale
-invaderDirection = 1; //all the invaders are moving in the same direction
-invaderXOffset = 1; //all the invaders are moving at the same time
-invaderFrame = 0; // all the invaders have two frames
+﻿Z = 2; //scale (Zoom)
+D = 1; //invaders direction. all the invaders are moving in the same direction
+X = 1; //invaders X offset. all the invaders are moving at the same time
+F = 0; //all the invaders have two frames
 
-skins = ["�", ":múúm:", "=hüüh=", "¾m=<=m¾", "x¾l<<<l¾x", "9yznìúúìnzy9", ":}lìúúìl}:", "À"]
+S = ["�", ":múúm:", "=hüüh=", "¾m=<=m¾", "x¾l<<<l¾x", "9yznìúúìnzy9", ":}lìúúìl}:", "À"] //the skins of all the items in the game
 
-update = function () {
-    c.fillStyle = 0;
-    c.fillRect(0, 0, a.width, a.height)
-
-    //human missles
-    for (i = 0; i < humanMissles.length; i++) {
-        missle = humanMissles[i];
-
-        if (missle.destroyed) continue;
-
-        //collision detection
-        for (j = 0; j < invaders.length; j++) {
-            ship = invaders[j];
-            if (!ship.destroyed &&
-                missle.x < ship.x + 12 &&
-               missle.x + 1 > ship.x &&
-               missle.y < ship.y + 8 &&
-               missle.y + 10 > ship.y) {
-                // collision detected!
-                ship.destroyed = 1;
-                missle.destroyed = 1;
-            }
-        }
-
-        if (missle.destroyed) continue;
-
-        missle.y -= 10;
-        print(missle.x, missle.y, skins[7]);
-    }
-
-    //print invaders
-    for (i = 0; i < invaders.length; i++) {
-
-        ship = invaders[i];
-
-        if (ship.destroyed) continue;
-
-        skin = 0;
-
-        if (ship.t == 1) {
-            skin = 1 + invaderFrame;
-        } else if (ship.t == 2) {
-            skin = 3 + invaderFrame;
-        } else if (ship.t == 3) {
-            skin = 5 + invaderFrame;
-        }
-
-        print(ship.x, ship.y, skins[skin]);
-
-        invaders[i].x += invaderDirection;
-    }
-
-    //make invaders go to next frame
-    invaderFrame = invaderFrame == 0 ? 1 : 0;
-
-    //make invaders switch direction and return
-    if (invaderXOffset == 0 || invaderXOffset == 100) {
-        invaderDirection *= -1;
-        invaders.map(function (i) { i.y += 10 });
-    }
-    invaderXOffset += invaderDirection
-
-    //human
-    print(human.x, human.y, skins[0]);
-
-}
-
-print = function (x, y, b) {
+P = function (x, y, b) {
     x = x || 0; y = y || 0;
     for (z = 0; z < b.length; z++) {
-        bitIndex = 8;
+        $ = 8; //bit index
         v = b.charCodeAt(z);
-        while (bitIndex > 0) {
+        while ($ > 0) {
             if (v >= 0) {
                 if (v % 2 == 1)
-                    c.clearRect(x * s, (y + bitIndex) * s, s, s);
+                    c.clearRect(x * Z, (y + $) * Z, Z, Z);
                 v = Math.floor(v / 2);
             }
-            bitIndex -= 1;
+            $ -= 1;
         }
         x += 1;
     }
 }
 
-invaders = [];
+I = [];
+//add invaders
 for (i = 0; i < 11; i++) {
-    invaders.push({ x: i * 16 + 2, y: 0, t: 1 });
-    invaders.push({ x: i * 16, y: 10, t: 2 });
-    invaders.push({ x: i * 16, y: 20, t: 2 });
-    invaders.push({ x: i * 16, y: 30, t: 3 });
-    invaders.push({ x: i * 16, y: 40, t: 3 });
+    I.push({ x: i * 16 + 2, y: 0, t: 1 });
+    I.push({ x: i * 16, y: 10, t: 2 });
+    I.push({ x: i * 16, y: 20, t: 2 });
+    I.push({ x: i * 16, y: 30, t: 3 });
+    I.push({ x: i * 16, y: 40, t: 3 });
 }
-//invaders.push({ x: 0, y: 10, t: 1 });
-human = { x: 0, y: 150, t: 0 }
-humanMissles = [];
+//I.push({ x: 0, y: 10, t: 1 });
+H = { x: 0, y: 150, t: 0 }
+M = [];
 
-//debugger;
-setInterval(update, 300);
+setInterval(function () {
+    c.fillStyle = 0;
+    c.fillRect(0, 0, a.width, a.height)
+
+    //handle human missles
+    for (i = 0; i < M.length; i++) {
+        m = M[i];
+
+        if (m.d) continue; //don't collide if destroyed
+
+        //collision detection
+        for (j = 0; j < I.length; j++) {
+            s = I[j];
+            if (!s.d && //don't consider destroyed ships
+                m.x < s.x + 12 &&
+               m.x + 1 > s.x &&
+               m.y < s.y + 8 &&
+               m.y + 10 > s.y) {
+                // collision detected!
+                s.d = 1; //mark as destroyed
+                m.d = 1; //mark as destroyed
+            }
+        }
+
+        if (m.d) continue; //don't print if destroyed
+
+        m.y -= 10;
+
+        //print human missles
+        P(m.x, m.y, S[7]);
+    }
+
+    //Print invaders
+    for (i = 0; i < I.length; i++) {
+
+        s = I[i];
+
+        if (s.d) continue;
+
+        k = 0; //skin index
+
+        if (s.t == 1) {
+            k = 1 + F;
+        } else if (s.t == 2) {
+            k = 3 + F;
+        } else if (s.t == 3) {
+            k = 5 + F;
+        }
+
+        P(s.x, s.y, S[k]);
+
+        I[i].x += D;
+    }
+
+    //make invaders go to next frame
+    F = F == 0 ? 1 : 0;
+
+    //make invaders switch direction and return
+    if (X == 0 || X == 100) {
+        D *= -1;
+        I.map(function (i) { i.y += 10 });
+    }
+    X += D
+
+    //print human
+    P(H.x, H.y, S[0]);
+
+}, 300);
 
 onkeydown = function (k) {
     w = k.which;
-    (w == 37) ? human.x-- :
-    (w == 39) ? human.x++ :
-    (w == 32) ? humanMissles.push({ x: human.x, y: human.y, t: 3 }) : "";
+    (w == 37) ? H.x-- :
+    (w == 39) ? H.x++ :
+    (w == 32) ? M.push({ x: H.x, y: H.y, t: 3 }) : ""; //add new human missle
 };
 
