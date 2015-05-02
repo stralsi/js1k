@@ -23,13 +23,14 @@ P = function (x, y, b) { //b is the bits in the skin
 }
 
 I = [];
-//add invaders
+//add invaders column by column
 for (i = 0; i < 11; i++) {
-    I.push({ x: i * 16 + 2, y: 0, t: 1 });
-    I.push({ x: i * 16, y: 10, t: 2 });
-    I.push({ x: i * 16, y: 20, t: 2 });
-    I.push({ x: i * 16, y: 30, t: 3 });
-    I.push({ x: i * 16, y: 40, t: 3 });
+    r = i * 16; //column x
+    I.push({ x: r + 2, y: 0, t: 1 },
+        { x: r, y: 10, t: 2 },
+        { x: r, y: 20, t: 2 },
+        { x: r, y: 30, t: 3 },
+        { x: r, y: 40, t: 3 });
 }
 //I.push({ x: 0, y: 10, t: 1 });
 H = { x: 0, y: 150, t: 0 }
