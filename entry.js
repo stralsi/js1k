@@ -78,15 +78,14 @@ setInterval(function () {
 
         if (!s.d) {
 
-            k = 0; //skin index
-
-            if (s.t == 1) {
-                k = 1 + F;
-            } else if (s.t == 2) {
-                k = 3 + F;
-            } else if (s.t == 3) {
-                k = 5 + F;
-            }
+            k =  //skin index
+            (s.t == 1) ? //invader type 1
+                k = 1 + F //on position 1 and 2 in the Skins array
+            : (s.t == 2) ? //invader type 2
+                k = 3 + F //on position 3 and 4 in the Skins array
+            : (s.t == 3) ?//invader type 3
+                k = 5 + F //on position 5 and 6 in the Skins array
+            : 0;
 
             P(s.x, s.y, S[k]);
 
