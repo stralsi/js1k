@@ -3,7 +3,7 @@ D =  //invaders direction. all the invaders are moving in the same direction
 X = 1; //invaders X offset. all the invaders are moving at the same time
 F = 0; //all the invaders have two frames
 
-S = ["�", ":múúm:", "=hüüh=", "¾m=<=m¾", "x¾l<<<l¾x", "9yznìúúìnzy9", ":}lìúúìl}:", "À"] //the skins of all the items in the game
+S = "�|:múúm:|=hüüh=|¾m=<=m¾|x¾l<<<l¾x|9yznìúúìnzy9|:}lìúúìl}:|À".split('|'); //the skins of all the items in the game
 
 //the print function
 P = function (x, y, b) { //b is the bits in the skin
