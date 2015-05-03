@@ -2,6 +2,7 @@
 D =  //invaders direction. all the invaders are moving in the same direction
 X = 1; //invaders X offset. all the invaders are moving at the same time
 F = 0; //all the invaders have two frames
+K = {} //keys
 
 S = "�|:múúm:|=hüüh=|¾m=<=m¾|x¾l<<<l¾x|9yznìúúìnzy9|:}lìúúìl}:|À".split('|'); //the skins of all the items in the game
 
@@ -39,6 +40,12 @@ M = [];
 setInterval(function () {
     c.fillStyle = 0;
     c.fillRect(0, 0, a.width, a.height)
+
+    //keyboard events
+    //K[0] will be space
+    //K[5] will be left arrow
+    //K[7] will be right arrow
+    K[7] ? H.x++ : K[5] ? H.x-- : K[0] ? M.push({ x: H.x + 6, y: H.y, t: 3 }) : "";
 
     //printing and collition detection for human missles
     for (i = 0; i < M.length; i++) {
@@ -108,10 +115,11 @@ setInterval(function () {
 
 }, 300);
 
-onkeydown = function (k) {
-    w = k.which;
-    (w == 37) ? H.x-- :
-    (w == 39) ? H.x++ :
-    (w == 32) ? M.push({ x: H.x + 6, y: H.y, t: 3 }) : ""; //add new human missle
+onkeydown = onkeyup = function (k) {
+    //K[0] will be space
+    //K[5] will be left arrow
+    //K[7] will be right arrow
+    //k.type is either "keydown" or "keyup" so k.type[5] is either "w" or undefined
+    K[k.which - 32] = k.type[5]
 };
 
