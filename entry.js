@@ -1,6 +1,7 @@
 ﻿Z = 2; //scale (Zoom)
 D = 1; //invaders direction. all the invaders are moving in the same direction
 X = 20;//invaders X offset. all the invaders are moving sideways at the same time
+O = //game over
 Y = //invaders Y offset. all the invaders are moving down at the same time
 Q = //current frame counter
 g = //boolean which helps remember when invaders switched direction, so that they don't move down and sideways at the same time
@@ -52,12 +53,11 @@ for (i = 0; i < 11; i++) {
     u = i * 16; //cache the x coordinate, common to all the invaders in the column
     //x,y are the coordinates
     //t is the invader type
-    //r is the rank. rank 0 means he can fire missles
-    k.push({ x: u + 2, y: 0, t: 1, r: 4 },
-        { x: u, y: 10, t: 3, r: 3 },
-        { x: u, y: 20, t: 3, r: 2 },
-        { x: u, y: 30, t: 5, r: 1 },
-        { x: u, y: 40, t: 5, r: 0 });
+    k.push({ x: u, y: 40, t: 5 },
+        { x: u, y: 30, t: 5 },
+        { x: u, y: 20, t: 3 },
+        { x: u, y: 10, t: 3 },
+        { x: u + 2, y: 0, t: 1 });
 }
 
 //the human
@@ -70,7 +70,7 @@ M = [{ d: 1 }];
 h = M[0];
 
 setInterval(function () {
-    //if (O) return; //game over
+    if (O) return; //game over
 
     c.fillStyle = 0;
     c.fillRect(0, 0, a.width, a.height)
@@ -100,11 +100,10 @@ setInterval(function () {
 
             //collision detection
             for (j = 0; j < 11; j++) {
-                for (k = 0; k < 5; k++) {
+                for (k = I[j].length - 1; k >= 0; k--) {
                     s = I[j][k];
                     if (C(m, s)) {
-                        if (k >= 1) I[j][k - 1].r--;//promote the invader above it
-                        s.d = 1; //mark as destroyed
+                        I[j].splice(k, 1);
                         m.d = 1; //mark as destroyed
                     }
                 }
@@ -122,7 +121,10 @@ setInterval(function () {
 
     //Print invaders
     for (i = 0; i < 11; i++) {
-        for (k = 0; k < 5; k++) {
+
+        O = O || (I[i][0] && (I[i][0].y + Y) > 150); //invaders have reached the bottom, game over
+
+        for (k = 0; k < I[i].length; k++) {
             s = I[i][k];
 
             if (!s.d) {
@@ -151,7 +153,6 @@ setInterval(function () {
             F = !F;
         }  //make invaders go to next skin
     }
-
 
     //print human
     P(H.x, H.y, S[0]);
