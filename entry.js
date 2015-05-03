@@ -76,8 +76,9 @@ setInterval(function () {
             //collision detection
             for (j = 0; j < I.length; j++) {
                 s = I[j];
+                e = s.t == 1 ? 4 : 0;//take into account that the invaders of type 1 are narrower and shifted to the right
                 if (!s.d && //don't consider destroyed ships
-                    m.x < s.x + X + 12 &&
+                    m.x < s.x + X + 12 - e &&
                    m.x + 1 > s.x + X &&
                    m.y < s.y + Y + 8 &&
                    m.y + 10 > s.y + Y) {
