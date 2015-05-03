@@ -43,8 +43,11 @@ for (i = 0; i < 11; i++) {
 //the human
 H = { x: 0, y: 150, t: 0 }
 
-//the human missles
-M = [];
+//the missles array
+M = [{ d: 1 }];
+
+//the human missle
+h = M[0];
 
 setInterval(function () {
     c.fillStyle = 0;
@@ -54,10 +57,10 @@ setInterval(function () {
 
     //K[0] - space key
     //its value is either "w" or undefined.
-    if (K[0] &&
-        Q - u > 60) { //only allow the user to fire once per second
-        M.push({ x: H.x + 6, y: H.y, t: 3 });
-        u = Q;
+    if (K[0] && (h.y < 0 || h.d)) { //only allow the user to fire if his missle is destroyed or out of screen
+        h.x = H.x + 6;
+        h.y = H.y;
+        h.d = 0;
     }
 
     //K[5] - left arrow
@@ -90,7 +93,7 @@ setInterval(function () {
 
             if (!m.d) { //don't print if destroyed during collision detection
 
-                m.y -= 1;
+                m.y -= 2;
 
                 //print human missles
                 P(m.x, m.y, S[7]);
