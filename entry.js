@@ -89,7 +89,7 @@ setInterval(function () {
 
             if (!m.d) { //don't print if destroyed during collision detection
 
-                m.y -= 10;
+                m.y -= 1;
 
                 //print human missles
                 P(m.x, m.y, S[7]);
