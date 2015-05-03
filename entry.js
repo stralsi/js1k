@@ -1,7 +1,10 @@
 ﻿Z = 2; //scale (Zoom)
-D =  //invaders direction. all the invaders are moving in the same direction
-X = 1; //invaders X offset. all the invaders are moving at the same time
-F = 0; //all the invaders have two frames
+D = 1; //invaders direction. all the invaders are moving in the same direction
+X = 20;//invaders X offset. all the invaders are moving sideways at the same time
+Y = //invaders Y offset. all the invaders are moving down at the same time
+Q = //current frame counter
+g = //boolean which helps remember when invaders switched direction, so that they don't move down and sideways at the same time
+F = 0; //all the invaders have two skins. This is the current skin index
 K = {} //keys
 
 S = "�|:múúm:|=hüüh=|¾m=<=m¾|x¾l<<<l¾x|9yznìúúìnzy9|:}lìúúìl}:|À".split('|'); //the skins of all the items in the game
@@ -23,7 +26,9 @@ P = function (x, y, b) { //b is the bits in the skin
     }
 }
 
+//the array of invaders
 I = [];
+
 //add invaders column by column
 for (i = 0; i < 11; i++) {
     r = i * 16; //column x
@@ -33,8 +38,11 @@ for (i = 0; i < 11; i++) {
         { x: r, y: 30, t: 3 },
         { x: r, y: 40, t: 3 });
 }
-//I.push({ x: 0, y: 10, t: 1 });
+
+//the human
 H = { x: 0, y: 150, t: 0 }
+
+//the human missles
 M = [];
 
 setInterval(function () {
@@ -63,10 +71,10 @@ setInterval(function () {
             for (j = 0; j < I.length; j++) {
                 s = I[j];
                 if (!s.d && //don't consider destroyed ships
-                    m.x < s.x + 12 &&
-                   m.x + 1 > s.x &&
-                   m.y < s.y + 8 &&
-                   m.y + 10 > s.y) {
+                    m.x < s.x + X + 12 &&
+                   m.x + 1 > s.x + X &&
+                   m.y < s.y + Y + 8 &&
+                   m.y + 10 > s.y + Y) {
                     // collision detected!
                     s.d = 1; //mark as destroyed
                     m.d = 1; //mark as destroyed
@@ -99,26 +107,33 @@ setInterval(function () {
                 k = 5 + F //on position 5 and 6 in the Skins array
             : 0;
 
-            P(s.x, s.y, S[k]);
-
-            I[i].x += D;
+            P(s.x + X, s.y + Y, S[k]);
         }
     }
 
-    //make invaders go to next frame
-    F = F == 0 ? 1 : 0;
+    //every 6o frames
+    if (Q % 60 == 0) {
 
-    //make invaders switch direction and return
-    if (X == 0 || X == 100) {
-        D *= -1;
-        I.map(function (i) { i.y += 10 });
+        //invader movement
+        (X == 0 || X == 80) && !g ? //if at the edges of the playing field
+               (D *= -1,//make invaders switch direction
+               Y += 10,//move downwards
+               g = 1)//prevent them from moving sideways
+               ://else
+               g = 0//allow moving sideways
+
+        if (!g) {
+            X += D * 10;//move invaders sideways
+            F = !F;
+        }  //make invaders go to next skin
     }
-    X += D
+
 
     //print human
     P(H.x, H.y, S[0]);
 
-}, 300);
+    Q++;//increment frame counter
+}, 15);
 
 onkeydown = onkeyup = function (k) {
     //K[0] will be space
