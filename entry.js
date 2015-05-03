@@ -42,10 +42,15 @@ setInterval(function () {
     c.fillRect(0, 0, a.width, a.height)
 
     //keyboard events
+
     //K[0] will be space
-    //K[5] will be left arrow
-    //K[7] will be right arrow
-    K[7] ? H.x++ : K[5] ? H.x-- : K[0] ? M.push({ x: H.x + 6, y: H.y, t: 3 }) : "";
+    K[0] ? M.push({ x: H.x + 6, y: H.y, t: 3 }) : "";
+
+    //K[5] - left arrow
+    //K[7] - right arrow
+    //their values are either "w" or undefined. !"w" is 0, !undefined is 1
+    H.x += !K[5] - !K[7];
+
 
     //printing and collition detection for human missles
     for (i = 0; i < M.length; i++) {
