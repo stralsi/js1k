@@ -4,11 +4,26 @@ X = 20;//invaders X offset. all the invaders are moving sideways at the same tim
 Y = //invaders Y offset. all the invaders are moving down at the same time
 Q = //current frame counter
 g = //boolean which helps remember when invaders switched direction, so that they don't move down and sideways at the same time
-u = //frame when human fired his previous shot
 F = 0; //all the invaders have two skins. This is the current skin index
 K = {} //keys
 
 S = "�|:múúm:|=hüüh=|¾m=<=m¾|x¾l<<<l¾x|9yznìúúìnzy9|:}lìúúìl}:|À".split('|'); //the skins of all the items in the game
+
+//the collision function
+//first param is a missle, second is a ship
+C = function (m, s) {
+    t = 0;
+    e = s.t == 1 ? 4 : 0;//take into account that the invaders of type 1 are narrower and shifted to the right
+    if (!s.d && //don't consider destroyed ships
+        m.x < s.x + X + 12 - e &&
+       m.x + 1 > s.x + X &&
+       m.y < s.y + Y + 8 &&
+       m.y + 10 > s.y + Y) {
+        // collision detected!
+        t = 1;
+    }
+    return t;
+}
 
 //the print function
 P = function (x, y, b) { //b is the bits in the skin
@@ -32,12 +47,17 @@ I = [];
 
 //add invaders column by column
 for (i = 0; i < 11; i++) {
-    r = i * 16; //column x
-    I.push({ x: r + 2, y: 0, t: 1 },
-        { x: r, y: 10, t: 3 },
-        { x: r, y: 20, t: 3 },
-        { x: r, y: 30, t: 5 },
-        { x: r, y: 40, t: 5 });
+    k = [];
+    I.push(k);
+    u = i * 16; //cache the x coordinate, common to all the invaders in the column
+    //x,y are the coordinates
+    //t is the invader type
+    //r is the rank. rank 0 means he can fire missles
+    k.push({ x: u + 2, y: 0, t: 1, r: 4 },
+        { x: u, y: 10, t: 3, r: 3 },
+        { x: u, y: 20, t: 3, r: 2 },
+        { x: u, y: 30, t: 5, r: 1 },
+        { x: u, y: 40, t: 5, r: 0 });
 }
 
 //the human
@@ -50,6 +70,8 @@ M = [{ d: 1 }];
 h = M[0];
 
 setInterval(function () {
+    //if (O) return; //game over
+
     c.fillStyle = 0;
     c.fillRect(0, 0, a.width, a.height)
 
@@ -77,17 +99,14 @@ setInterval(function () {
         if (!m.d) {//don't do anything if destroyed
 
             //collision detection
-            for (j = 0; j < I.length; j++) {
-                s = I[j];
-                e = s.t == 1 ? 4 : 0;//take into account that the invaders of type 1 are narrower and shifted to the right
-                if (!s.d && //don't consider destroyed ships
-                    m.x < s.x + X + 12 - e &&
-                   m.x + 1 > s.x + X &&
-                   m.y < s.y + Y + 8 &&
-                   m.y + 10 > s.y + Y) {
-                    // collision detected!
-                    s.d = 1; //mark as destroyed
-                    m.d = 1; //mark as destroyed
+            for (j = 0; j < 11; j++) {
+                for (k = 0; k < 5; k++) {
+                    s = I[j][k];
+                    if (C(m, s)) {
+                        if (k >= 1) I[j][k - 1].r--;//promote the invader above it
+                        s.d = 1; //mark as destroyed
+                        m.d = 1; //mark as destroyed
+                    }
                 }
             }
 
@@ -102,16 +121,17 @@ setInterval(function () {
     }
 
     //Print invaders
-    for (i = 0; i < I.length; i++) {
+    for (i = 0; i < 11; i++) {
+        for (k = 0; k < 5; k++) {
+            s = I[i][k];
 
-        s = I[i];
-
-        if (!s.d) {
-            //the skin index is dependent on invader type
-            //invader type 1 on position 1 and 2 in the Skins array
-            //invader type 3 on position 3 and 4 in the Skins array
-            //invader type 5 on position 5 and 6 in the Skins array
-            P(s.x + X, s.y + Y, S[s.t + F]);
+            if (!s.d) {
+                //the skin index is dependent on invader type
+                //invader type 1 on position 1 and 2 in the Skins array
+                //invader type 3 on position 3 and 4 in the Skins array
+                //invader type 5 on position 5 and 6 in the Skins array
+                P(s.x + X, s.y + Y, S[s.t + F]);
+            }
         }
     }
 
