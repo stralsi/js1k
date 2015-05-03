@@ -4,6 +4,7 @@ X = 20;//invaders X offset. all the invaders are moving sideways at the same tim
 Y = //invaders Y offset. all the invaders are moving down at the same time
 Q = //current frame counter
 g = //boolean which helps remember when invaders switched direction, so that they don't move down and sideways at the same time
+u = //frame when human fired his previous shot
 F = 0; //all the invaders have two skins. This is the current skin index
 K = {} //keys
 
@@ -51,8 +52,13 @@ setInterval(function () {
 
     //keyboard events
 
-    //K[0] will be space
-    K[0] ? M.push({ x: H.x + 6, y: H.y, t: 3 }) : "";
+    //K[0] - space key
+    //its value is either "w" or undefined.
+    if (K[0] &&
+        Q - u > 60) { //only allow the user to fire once per second
+        M.push({ x: H.x + 6, y: H.y, t: 3 });
+        u = Q;
+    }
 
     //K[5] - left arrow
     //K[7] - right arrow
