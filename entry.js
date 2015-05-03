@@ -112,6 +112,6 @@ onkeydown = function (k) {
     w = k.which;
     (w == 37) ? H.x-- :
     (w == 39) ? H.x++ :
-    (w == 32) ? M.push({ x: H.x, y: H.y, t: 3 }) : ""; //add new human missle
+    (w == 32) ? M.push({ x: H.x + 6, y: H.y, t: 3 }) : ""; //add new human missle
 };
 
