@@ -125,13 +125,11 @@ setInterval(function () {
         for (k = 0; k < I[i].length; k++) {
             s = I[i][k];
 
-            if (!s.d) {
-                //the skin index is dependent on invader type
-                //invader type 1 on position 1 and 2 in the Skins array
-                //invader type 3 on position 3 and 4 in the Skins array
-                //invader type 5 on position 5 and 6 in the Skins array
-                P(s.x + X, s.y + Y, S[s.t + F]);
-            }
+            //the skin index is dependent on invader type
+            //invader type 1 on position 1 and 2 in the Skins array
+            //invader type 3 on position 3 and 4 in the Skins array
+            //invader type 5 on position 5 and 6 in the Skins array
+            P(s.x + X, s.y + Y, S[s.t + F]);
         }
     }
 
