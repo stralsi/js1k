@@ -31,12 +31,10 @@ P = function (x, y, b) { //b is the bits in the skin
     for (z = 0; z < b.length; z++) {
         $ = 8; //bit index
         v = b.charCodeAt(z);
-        while ($ > 0) {
-            if (v >= 0) {
-                if (v % 2 == 1)
-                    c.clearRect(x * Z, (y + $) * Z, Z, Z);
-                v = Math.floor(v / 2);
-            }
+        while ($) {
+            if (v % 2 == 1)
+                c.clearRect(x * Z, (y + $) * Z, Z, Z);
+            v = v / 2 | 0;
             $ -= 1;
         }
         x += 1;
