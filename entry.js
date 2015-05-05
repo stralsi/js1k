@@ -11,7 +11,7 @@ K = {} //keys
 S = "�|:múúm:|=hüüh=|¾m=<=m¾|x¾l<<<l¾x|9yznìúúìnzy9|:}lìúúìl}:|À".split('|'); //the skins of all the items in the game
 
 //the collision function
-//first param is a missle, second is a ship
+//first param is a missile, second is a ship
 C = function (m, s) {
     t = 0;
     e = s.t == 1 ? 4 : 0;//take into account that the invaders of type 1 are narrower and shifted to the right
@@ -61,10 +61,10 @@ for (i = 0; i < 11; i++) {
 //the human
 H = { x: 0, y: 150, t: 0 }
 
-//the missles array
+//the missiles array
 M = [{ d: 1 }];
 
-//the human missle
+//the human missile
 h = M[0];
 
 setInterval(function () {
@@ -77,7 +77,7 @@ setInterval(function () {
 
     //K[0] - space key
     //its value is either "w" or undefined.
-    if (K[0] && (h.y < 0 || h.d)) { //only allow the user to fire if his missle is destroyed or out of screen
+    if (K[0] && (h.y < 0 || h.d)) { //only allow the user to fire if his missile is destroyed or out of screen
         h.x = H.x + 6;
         h.y = H.y;
         h.d = 0;
@@ -89,10 +89,10 @@ setInterval(function () {
     H.x += !K[5] - !K[7];
 
 
-    //printing and collision detection for human missles
+    //printing and collision detection for human missiles
     for (i = 0; i < M.length; i++) {
 
-        m = M[i]; //current missle
+        m = M[i]; //current missile
 
         if (!m.d) {//don't do anything if destroyed
 
@@ -112,7 +112,7 @@ setInterval(function () {
                 //if it's the human missile go up, if it's any other missile go down
                 m.y += m == h ? -2 : 2;
 
-                //print human missles
+                //print human missiles
                 P(m.x, m.y, S[7]);
             }
         }
