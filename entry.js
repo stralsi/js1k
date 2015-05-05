@@ -19,7 +19,7 @@ C = function (m, s) {
         m.x < s.x + X + 12 - e &&
        m.x + 1 > s.x + X &&
        m.y < s.y + Y + 8 &&
-       m.y + 10 > s.y + Y) {
+       m.y + 2 > s.y + Y) {
         // collision detected!
         t = 1;
     }
@@ -89,7 +89,7 @@ setInterval(function () {
     H.x += !K[5] - !K[7];
 
 
-    //printing and collition detection for human missles
+    //printing and collision detection for human missles
     for (i = 0; i < M.length; i++) {
 
         m = M[i]; //current missle
