@@ -109,7 +109,8 @@ setInterval(function () {
 
             if (!m.d) { //don't print if destroyed during collision detection
 
-                m.y -= 2;
+                //if it's the human missile go up, if it's any other missile go down
+                m.y += m == h ? -2 : 2;
 
                 //print human missles
                 P(m.x, m.y, S[7]);
@@ -124,6 +125,12 @@ setInterval(function () {
 
         for (k = 0; k < I[i].length; k++) {
             s = I[i][k];
+
+            //Invader missiles
+            if (k == 0 && //only the bottom row of invaders throws missiles. 
+                Math.random() < .004) { //at every frame there's a 0.4% chance that a given invader will throw a missile. 
+                M.push({ x: s.x + X + 6, y: s.y + Y + 15 })//They throw their missiles 15 pixels below their position, to avoid hitting themselves.
+            };
 
             //the skin index is dependent on invader type
             //invader type 1 on position 1 and 2 in the Skins array
