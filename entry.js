@@ -1,8 +1,6 @@
 ﻿Z = 2; //scale (Zoom)
 O = //game over
-Q = //current frame counter
-g = //boolean which helps remember when invaders switched direction, so that they don't move down and sideways at the same time
-F = 0; //all the invaders have two skins. This is the current skin index
+Q = 0//current frame counter
 K = {} //keys
 
 S = "�|:múúm:|=hüüh=|¾m=<=m¾|x¾l<<<l¾x|9yznìúúìnzy9|:}lìúúìl}:|À".split('|'); //the skins of all the items in the game
@@ -125,14 +123,13 @@ setInterval(function () {
 
             //every 6o frames move the invaders
             (Q % 60 == 0) && (
-                (Q % 540 == 0) ? /*540 is the number of frames it takes them to go from one side of the screen to the other*/
+                Q % 540 == 0 ? /*540 is the number of frames it takes them to go from one side of the screen to the other*/
             //if the frame number is a multiple of 540, it means they have traversed the screen and they are at one of the edges. So its time to go down one row.
                     s.y += 10 :
             //if the frame number is not a multiple of 540, the invaders are somewhere in the middle of a row, so act normal and move sideways.
-                    (s.x += (Q / 540 | 0) % 2 == 0 ? //row is even?
+                    s.x += (Q / 540 | 0) % 2 == 0 ? //row is even?
                             10 ://move right
-                            -10,//else move left
-                    F = !F)/*flip the frame*/
+                            -10//else move left
             )
 
             //Invader missiles
@@ -145,7 +142,7 @@ setInterval(function () {
             //invader type 1 on position 1 and 2 in the Skins array
             //invader type 3 on position 3 and 4 in the Skins array
             //invader type 5 on position 5 and 6 in the Skins array
-            P(s.x, s.y, S[s.t + F]);
+            P(s.x, s.y, S[s.t + (Q / 60 | 0) % 2]);
         }
     }
 
