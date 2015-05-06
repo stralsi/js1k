@@ -10,8 +10,7 @@ S = "�|:múúm:|=hüüh=|¾m=<=m¾|x¾l<<<l¾x|9yznìúú�
 C = function (m, s) {
     t = 0;
     e = s.t == 1 ? 4 : 0;//take into account that the invaders of type 1 are narrower and shifted to the right
-    if (!s.d && //don't consider destroyed ships
-        m.x < s.x + 12 - e &&
+    if (m.x < s.x + 12 - e &&
        m.x + 1 > s.x &&
        m.y < s.y + 8 &&
        m.y + 2 > s.y) {
@@ -74,7 +73,7 @@ setInterval(function () {
     //its value is either "w" or undefined.
     if (K[0] && (h.y < 0 || h.d)) { //only allow the user to fire if his missile is destroyed or out of screen
         h.x = H.x + 6;
-        h.y = H.y;
+        h.y = H.y - 5; //place the missile a bit above the human ship, so that it doesn't trigger the collision detection
         h.d = 0;
     }
 
@@ -101,6 +100,9 @@ setInterval(function () {
                     }
                 }
             }
+
+            //if human ship gets hit, game over
+            if (C(m, H)) O = 1;
 
             if (!m.d) { //don't print if destroyed during collision detection
 
