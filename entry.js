@@ -1,8 +1,5 @@
 ﻿Z = 2; //scale (Zoom)
-D = 1; //invaders direction. all the invaders are moving in the same direction
-X = 20;//invaders X offset. all the invaders are moving sideways at the same time
 O = //game over
-Y = //invaders Y offset. all the invaders are moving down at the same time
 Q = //current frame counter
 g = //boolean which helps remember when invaders switched direction, so that they don't move down and sideways at the same time
 F = 0; //all the invaders have two skins. This is the current skin index
@@ -16,10 +13,10 @@ C = function (m, s) {
     t = 0;
     e = s.t == 1 ? 4 : 0;//take into account that the invaders of type 1 are narrower and shifted to the right
     if (!s.d && //don't consider destroyed ships
-        m.x < s.x + X + 12 - e &&
-       m.x + 1 > s.x + X &&
-       m.y < s.y + Y + 8 &&
-       m.y + 2 > s.y + Y) {
+        m.x < s.x + 12 - e &&
+       m.x + 1 > s.x &&
+       m.y < s.y + 8 &&
+       m.y + 2 > s.y) {
         // collision detected!
         t = 1;
     }
@@ -121,40 +118,35 @@ setInterval(function () {
     //Print invaders
     for (i = 0; i < 11; i++) {
 
-        O = O || (I[i][0] && (I[i][0].y + Y) > 150); //invaders have reached the bottom, game over
+        O = O || (I[i][0] && (I[i][0].y) > 150); //invaders have reached the bottom, game over
 
         for (k = 0; k < I[i].length; k++) {
             s = I[i][k];
 
+            //every 6o frames move the invaders
+            (Q % 60 == 0) && (
+                (Q % 540 == 0) ? /*540 is the number of frames it takes them to go from one side of the screen to the other*/
+            //if the frame number is a multiple of 540, it means they have traversed the screen and they are at one of the edges. So its time to go down one row.
+                    s.y += 10 :
+            //if the frame number is not a multiple of 540, the invaders are somewhere in the middle of a row, so act normal and move sideways.
+                    (s.x += (Q / 540 | 0) % 2 == 0 ? //row is even?
+                            10 ://move right
+                            -10,//else move left
+                    F = !F)/*flip the frame*/
+            )
+
             //Invader missiles
             if (k == 0 && //only the bottom row of invaders throws missiles. 
                 Math.random() < .004) { //at every frame there's a 0.4% chance that a given invader will throw a missile. 
-                M.push({ x: s.x + X + 6, y: s.y + Y + 15 })//They throw their missiles 15 pixels below their position, to avoid hitting themselves.
+                M.push({ x: s.x + 6, y: s.y + 15 })//They throw their missiles 15 pixels below their position, to avoid hitting themselves.
             };
 
             //the skin index is dependent on invader type
             //invader type 1 on position 1 and 2 in the Skins array
             //invader type 3 on position 3 and 4 in the Skins array
             //invader type 5 on position 5 and 6 in the Skins array
-            P(s.x + X, s.y + Y, S[s.t + F]);
+            P(s.x, s.y, S[s.t + F]);
         }
-    }
-
-    //every 6o frames
-    if (Q % 60 == 0) {
-
-        //invader movement
-        (X == 0 || X == 80) && !g ? //if at the edges of the playing field
-               (D *= -1,//make invaders switch direction
-               Y += 10,//move downwards
-               g = 1)//prevent them from moving sideways
-               ://else
-               g = 0//allow moving sideways
-
-        if (!g) {
-            X += D * 10;//move invaders sideways
-            F = !F;
-        }  //make invaders go to next skin
     }
 
     //print human
