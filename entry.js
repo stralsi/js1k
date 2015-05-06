@@ -84,7 +84,7 @@ setInterval(function () {
     H.x += !K[5] - !K[7];
 
 
-    //printing and collision detection for human missiles
+    //printing and collision detection for missiles
     for (i = 0; i < M.length; i++) {
 
         m = M[i]; //current missile
@@ -107,7 +107,7 @@ setInterval(function () {
                 //if it's the human missile go up, if it's any other missile go down
                 m.y += m == h ? -2 : 2;
 
-                //print human missiles
+                //print missiles
                 P(m.x, m.y, S[7]);
             }
         }
