@@ -2,7 +2,7 @@
 O = //game over
 Q = 0//current frame counter
 K = {} //keys
-
+l = 'length';//cache the 'length' property. Now instead of calling arr.length I can call arr[l], which is actually arr['length'] and it's valid js
 S = "�|:múúm:|=hüüh=|¾m=<=m¾|x¾l<<<l¾x|9yznìúúìnzy9|:}lìúúìl}:|À|D(DD(D".split('|'); //the skins of all the items in the game
 
 //the collision function
@@ -13,16 +13,16 @@ C = function (m, s) {
     if (m.x < s.x + 12 - e &&
        m.x + 1 > s.x &&
        m.y < s.y + 8 &&
-       m.y + 2 > s.y) {
+       m.y + 2 > s.y)
         // collision detected!
         t = 1;
-    }
+
     return t;
 }
 
 //the print function
 P = function (x, y, b) { //b is the bits in the skin
-    for (z = 0; z < b.length; z++) {
+    for (z = 0; z < b[l]; z++) {
         $ = 8; //bit index
         v = b.charCodeAt(z);
         while ($) {
@@ -84,31 +84,28 @@ setInterval(function () {
 
 
     //printing and collision detection for missiles
-    for (i = 0; i < M.length; i++) {
+    for (i = 0; i < M[l]; i++) {
 
         m = M[i]; //current missile
 
         if (!m.d) {//don't do anything if destroyed
 
             //collision detection
-            for (j = 0; j < 11; j++) {
-                for (k = 0; k < I[j].length; k++) {
-                    s = I[j][k];
-                    C(m, s) && (s.d = m.d = 1); //mark as destroyed
-                }
-            }
+            for (j = 0; j < 11; j++)
+                for (k = 0; k < I[j][l]; k++)
+                    s = I[j][k],
+                    C(m, s) && (s.d = m.d = 1); //mark as destroyed. The invaders will be removed after a few frames, but the missles remain in memory (cleaning them would take too many bytes)
+
+
 
             //if human ship gets hit, game over
             if (C(m, H)) O = 1;
 
-            if (!m.d) { //don't print if destroyed during collision detection
-
+            if (!m.d)//don't print if destroyed during collision detection
                 //if it's the human missile go up, if it's any other missile go down
-                m.y += m == h ? -2 : 2;
-
+                m.y += m == h ? -2 : 2,
                 //print missiles
                 P(m.x, m.y, S[7]);
-            }
         }
     }
 
@@ -117,7 +114,7 @@ setInterval(function () {
 
         O = O || (I[i][0] && (I[i][0].y) > 150); //invaders have reached the bottom, game over
 
-        for (k = 0; k < I[i].length; k++) {
+        for (k = 0; k < I[i][l]; k++) {
             s = I[i][k];
 
             //every 6o frames move the invaders
@@ -133,16 +130,15 @@ setInterval(function () {
 
             //Invader missiles
             if (k == 0 && //only the bottom row of invaders throws missiles. 
-                Math.random() < .004) { //at every frame there's a 0.4% chance that a given invader will throw a missile. 
-                M.push({ x: s.x + 6, y: s.y + 15 })//They throw their missiles 15 pixels below their position, to avoid hitting themselves.
-            };
+                Math.random() < .004)//at every frame there's a 0.4% chance that a given invader will throw a missile. 
+                M.push({ x: s.x + 6, y: s.y + 15 });//They throw their missiles 15 pixels below their position, to avoid hitting themselves.
 
             //the skin index is dependent on invader type
             //invader type 1 on position 1 and 2 in the Skins array
             //invader type 3 on position 3 and 4 in the Skins array
             //invader type 5 on position 5 and 6 in the Skins array
             //P(s.x, s.y, S[s.d ? 8 : );
-            P(s.x, s.y, S[s.d ? 8 : s.t + (Q / 60 | 0) % 2])
+            P(s.x, s.y, S[s.d ? 8 : s.t + (Q / 60 | 0) % 2]);
 
             s.d && (s.d < 5 ? s.d++ : I[i].splice(k, 1));
         }
