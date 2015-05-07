@@ -51,11 +51,13 @@ for (i = 0; i < 11; i++) {
 //the human
 H = { x: 0, y: 150, t: 0 }
 
-//the missiles array
-M = [{ d: 1 }];
-
 //the human missile
-h = M[0];
+h = { d: 1 };
+
+//the missiles array
+M = [h];
+
+
 
 setInterval(function () {
     if (O) return; //game over
