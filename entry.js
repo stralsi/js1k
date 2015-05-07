@@ -23,14 +23,10 @@ C = function (m, s) {
 //the print function
 P = function (x, y, b) { //b is the bits in the skin
     for (z = 0; z < b[l]; z++) {
-        $ = 8; //bit index
         v = b.charCodeAt(z);
-        while ($) {
-            if (v % 2 == 1)
-                c.clearRect(x * Z, (y + $) * Z, Z, Z);
+        for ($ = 8; $; $--)//Go through the bits. $ is the bit index
+            (v % 2 == 1) && c.clearRect(x * Z, (y + $) * Z, Z, Z),
             v = v / 2 | 0;
-            $ -= 1;
-        }
         x += 1;
     }
 }
