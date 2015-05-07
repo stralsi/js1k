@@ -3,7 +3,7 @@ O = //game over
 Q = 0//current frame counter
 K = {} //keys
 
-S = "�|:múúm:|=hüüh=|¾m=<=m¾|x¾l<<<l¾x|9yznìúúìnzy9|:}lìúúìl}:|À".split('|'); //the skins of all the items in the game
+S = "�|:múúm:|=hüüh=|¾m=<=m¾|x¾l<<<l¾x|9yznìúúìnzy9|:}lìúúìl}:|À|D(DD(D".split('|'); //the skins of all the items in the game
 
 //the collision function
 //first param is a missile, second is a ship
@@ -92,12 +92,9 @@ setInterval(function () {
 
             //collision detection
             for (j = 0; j < 11; j++) {
-                for (k = I[j].length - 1; k >= 0; k--) {
+                for (k = 0; k < I[j].length; k++) {
                     s = I[j][k];
-                    if (C(m, s)) {
-                        I[j].splice(k, 1);
-                        m.d = 1; //mark as destroyed
-                    }
+                    C(m, s) && (s.d = m.d = 1); //mark as destroyed
                 }
             }
 
@@ -144,7 +141,10 @@ setInterval(function () {
             //invader type 1 on position 1 and 2 in the Skins array
             //invader type 3 on position 3 and 4 in the Skins array
             //invader type 5 on position 5 and 6 in the Skins array
-            P(s.x, s.y, S[s.t + (Q / 60 | 0) % 2]);
+            //P(s.x, s.y, S[s.d ? 8 : );
+            P(s.x, s.y, S[s.d ? 8 : s.t + (Q / 60 | 0) % 2])
+
+            s.d && (s.d < 5 ? s.d++ : I[i].splice(k, 1));
         }
     }
 
