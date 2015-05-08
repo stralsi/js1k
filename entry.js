@@ -31,7 +31,7 @@ P = function (x, y, b) { //b is the bits in the skin
     }
 }
 
-//the array of invaders
+//the matrix of invaders
 I = [];
 
 //add invaders column by column
